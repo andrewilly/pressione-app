@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Monitor Pressione</title>
+
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -24,10 +25,18 @@
 
   <canvas id="chart"></canvas>
 
+  <button id="exportBtn">Esporta grafico (PNG)</button>
+  <button id="pdfBtn">Esporta PDF</button>
+
   <ul id="list"></ul>
 </div>
 
+<!-- Grafico -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script src="app.js"></script>
 
 </body>
