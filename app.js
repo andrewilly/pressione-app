@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 const form = document.getElementById("form");
 const ctx = document.getElementById("chart").getContext("2d");
 const list = document.getElementById("list");
@@ -5,9 +7,9 @@ const statsDiv = document.getElementById("stats");
 
 let data = JSON.parse(localStorage.getItem("bpData")) || [];
 
-// ----------------------
+// --------------------
 // SALVATAGGIO DATI
-// ----------------------
+// --------------------
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -27,24 +29,34 @@ form.addEventListener("submit", (e) => {
   updateUI();
 });
 
-// ----------------------
-// RISCHIO CLINICO
-// ----------------------
-function getRiskClass(s, d) {
-  if (s < 130 && d < 85) return "normal";
-  if (s < 140 || d < 90) return "warning";
-  return "danger";
+// --------------------
+// STATISTICHE
+// --------------------
+function renderStats() {
+  if (data.length === 0) {
+    statsDiv.innerHTML = "Nessun dato disponibile";
+    return;
+  }
+
+  const avgS = (data.reduce((a,b)=>a+b.systolic,0)/data.length).toFixed(1);
+  const avgD = (data.reduce((a,b)=>a+b.diastolic,0)/data.length).toFixed(1);
+
+  statsDiv.innerHTML = `
+    <strong>Media pressione:</strong><br>
+    Sistolica: ${avgS} mmHg<br>
+    Diastolica: ${avgD} mmHg
+  `;
 }
 
-// ----------------------
-// LISTA DATI
-// ----------------------
+// --------------------
+// LISTA
+// --------------------
 function renderList() {
   list.innerHTML = "";
 
   data.forEach(d => {
     const li = document.createElement("li");
-    li.className = `item ${getRiskClass(d.systolic, d.diastolic)}`;
+    li.className = "item";
 
     li.innerHTML = `
       <strong>${d.date}</strong><br>
@@ -55,33 +67,9 @@ function renderList() {
   });
 }
 
-// ----------------------
-// STATISTICHE
-// ----------------------
-function renderStats() {
-  if (data.length === 0) {
-    statsDiv.innerHTML = "Nessun dato disponibile";
-    return;
-  }
-
-  const avgS = (data.reduce((a,b)=>a+b.systolic,0)/data.length).toFixed(1);
-  const avgD = (data.reduce((a,b)=>a+b.diastolic,0)/data.length).toFixed(1);
-
-  let status = "Normale";
-  if (avgS >= 140 || avgD >= 90) status = "Ipertensione";
-  else if (avgS >= 130 || avgD >= 85) status = "Borderline";
-
-  statsDiv.innerHTML = `
-    <strong>Media pressione:</strong><br>
-    Sistolica: ${avgS} mmHg<br>
-    Diastolica: ${avgD} mmHg<br><br>
-    <strong>Valutazione:</strong> ${status}
-  `;
-}
-
-// ----------------------
-// GRAFICO REFERTI MEDICO
-// ----------------------
+// --------------------
+// GRAFICO MEDICO
+// --------------------
 function renderChart() {
   if (data.length === 0) return;
 
@@ -106,40 +94,39 @@ function renderChart() {
           data: systolic,
           borderWidth: 3,
           tension: 0.25,
-          pointRadius: 4
+          pointRadius: 3
         },
         {
           label: "Diastolica",
           data: diastolic,
           borderWidth: 3,
           tension: 0.25,
-          pointRadius: 4
+          pointRadius: 3
         },
 
-        // Soglie cliniche
         {
-          label: "120 (normale)",
+          label: "120",
           data: s120,
           borderDash: [6,6],
           borderWidth: 1,
           pointRadius: 0
         },
         {
-          label: "140 (rischio)",
+          label: "140",
           data: s140,
           borderDash: [6,6],
           borderWidth: 1,
           pointRadius: 0
         },
         {
-          label: "80 (diastolica normale)",
+          label: "80",
           data: d80,
           borderDash: [6,6],
           borderWidth: 1,
           pointRadius: 0
         },
         {
-          label: "90 (rischio)",
+          label: "90",
           data: d90,
           borderDash: [6,6],
           borderWidth: 1,
@@ -150,26 +137,23 @@ function renderChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+
       plugins: {
         title: {
           display: true,
-          text: "Referto andamento pressione arteriosa"
+          text: "Referto pressione arteriosa"
         },
         legend: {
           position: "top"
-        },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} mmHg`
-          }
         }
       },
+
       scales: {
         x: {
           grid: { display: false }
         },
         y: {
-          grid: { color: "#e0e0e0" },
+          grid: { color: "#eee" },
           ticks: { stepSize: 10 }
         }
       }
@@ -177,13 +161,15 @@ function renderChart() {
   });
 }
 
-// ----------------------
+// --------------------
 // UPDATE UI
-// ----------------------
+// --------------------
 function updateUI() {
-  renderList();
   renderStats();
+  renderList();
   renderChart();
 }
 
 updateUI();
+
+});

@@ -45,12 +45,16 @@ button {
   background: #ffffff;
   padding: 10px;
   border-radius: 8px;
-  height: 300px;
+
+  /* 🔥 fondamentale per mobile */
+  height: 320px;
+  position: relative;
 }
 
 canvas {
   width: 100% !important;
   height: 100% !important;
+  display: block;
 }
 
 #list {
@@ -65,7 +69,3 @@ canvas {
   padding: 10px;
   border-radius: 6px;
 }
-
-.normal { border-left: 5px solid #2ecc71; }
-.warning { border-left: 5px solid #f39c12; }
-.danger { border-left: 5px solid #e74c3c; }
