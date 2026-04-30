@@ -27,7 +27,7 @@ form.addEventListener("submit", (e) => {
 });
 
 // --------------------
-// STATISTICHE BASE
+// MEDIA
 // --------------------
 function renderStats() {
 
@@ -41,25 +41,58 @@ function renderStats() {
   const avgS = (data.reduce((a,b)=>a+b.systolic,0)/data.length).toFixed(1);
   const avgD = (data.reduce((a,b)=>a+b.diastolic,0)/data.length).toFixed(1);
 
-  el.innerHTML = `
-    <strong>Media pressione:</strong><br>
-    ${avgS}/${avgD} mmHg
-  `;
+  el.innerHTML = `Media pressione: ${avgS}/${avgD} mmHg`;
 }
 
 // --------------------
-// LISTA
+// LISTA MISURAZIONI
 // --------------------
 function renderList() {
 
   const list = document.getElementById("list");
+
+  if (!list) return;
+
   list.innerHTML = "";
+
+  if (data.length === 0) {
+    list.innerHTML = "<li>Nessuna misurazione disponibile</li>";
+    return;
+  }
 
   data.forEach(d => {
     const li = document.createElement("li");
-    li.textContent = `${d.date} - ${d.systolic}/${d.diastolic} bpm:${d.pulse ?? "-"}`;
+    li.textContent = `${d.date} → ${d.systolic}/${d.diastolic} bpm:${d.pulse ?? "-"}`;
     list.appendChild(li);
   });
+}
+
+// --------------------
+// AI CLINICA
+// --------------------
+function renderAI() {
+
+  const el = document.getElementById("aiReport");
+
+  if (data.length < 3) {
+    el.innerHTML = "Dati insufficienti per analisi clinica (minimo 3 misurazioni).";
+    return;
+  }
+
+  const s = data.map(d => d.systolic);
+  const d = data.map(d => d.diastolic);
+
+  const avgS = s.reduce((a,b)=>a+b,0)/s.length;
+  const avgD = d.reduce((a,b)=>a+b,0)/d.length;
+
+  let risk = "basso";
+  if (avgS >= 140 || avgD >= 90) risk = "alto";
+  else if (avgS >= 130 || avgD >= 85) risk = "moderato";
+
+  el.innerHTML = `
+    <strong>Valutazione clinica AI</strong><br>
+    Rischio stimato: ${risk}
+  `;
 }
 
 // --------------------
@@ -72,7 +105,6 @@ function renderChart() {
   const labels = data.map(d => d.date);
   const s = data.map(d => d.systolic);
   const d = data.map(d => d.diastolic);
-  const p = data.map(d => d.pulse);
 
   if (window.chart) window.chart.destroy();
 
@@ -81,9 +113,18 @@ function renderChart() {
     data: {
       labels,
       datasets: [
-        { label: "Sistolica", data: s, borderWidth: 3, tension: 0.3 },
-        { label: "Diastolica", data: d, borderWidth: 3, tension: 0.3 },
-        { label: "Pulsazioni", data: p, borderWidth: 2, borderDash: [4,4], pointRadius: 2 }
+        {
+          label: "Sistolica",
+          data: s,
+          borderWidth: 3,
+          tension: 0.3
+        },
+        {
+          label: "Diastolica",
+          data: d,
+          borderWidth: 3,
+          tension: 0.3
+        }
       ]
     },
     options: {
@@ -94,69 +135,13 @@ function renderChart() {
 }
 
 // --------------------
-// 🧠 AI MEDICA (CORE)
-// --------------------
-function renderAI() {
-
-  const el = document.getElementById("aiReport");
-
-  if (data.length < 3) {
-    el.innerHTML = "Dati insufficienti per valutazione clinica (minimo 3 misurazioni).";
-    return;
-  }
-
-  const systolic = data.map(d => d.systolic);
-  const diastolic = data.map(d => d.diastolic);
-
-  const avgS = systolic.reduce((a,b)=>a+b,0)/systolic.length;
-  const avgD = diastolic.reduce((a,b)=>a+b,0)/diastolic.length;
-
-  const trendS = systolic[systolic.length-1] - systolic[0];
-  const trendD = diastolic[diastolic.length-1] - diastolic[0];
-
-  let risk = "basso";
-  if (avgS >= 140 || avgD >= 90) risk = "alto";
-  else if (avgS >= 130 || avgD >= 85) risk = "moderato";
-
-  let trendText = "";
-
-  if (trendS > 10 || trendD > 10) {
-    trendText = "📈 Trend clinico in peggioramento con incremento progressivo dei valori pressori.";
-  } else if (trendS < -10 || trendD < -10) {
-    trendText = "📉 Trend clinico in miglioramento con riduzione progressiva dei valori pressori.";
-  } else {
-    trendText = "➖ Trend clinico stabile senza variazioni significative.";
-  }
-
-  let clinicalNote = "";
-
-  if (risk === "alto") {
-    clinicalNote = "⚠️ Profilo compatibile con ipertensione arteriosa. Si suggerisce valutazione medica.";
-  } else if (risk === "moderato") {
-    clinicalNote = "⚠️ Valori borderline. Monitoraggio consigliato.";
-  } else {
-    clinicalNote = "✅ Valori compatibili con range pressorio nella norma.";
-  }
-
-  el.innerHTML = `
-    <strong>Valutazione clinica automatizzata</strong><br><br>
-
-    ${trendText}<br><br>
-
-    <strong>Rischio stimato:</strong> ${risk}<br><br>
-
-    ${clinicalNote}
-  `;
-}
-
-// --------------------
 // UPDATE UI
 // --------------------
 function updateUI() {
   renderStats();
   renderList();
-  renderChart();
   renderAI();
+  renderChart();
 }
 
 updateUI();
