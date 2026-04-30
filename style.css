@@ -32,10 +32,17 @@ button {
   border-radius: 6px;
 }
 
-/* 🔥 FIX CRUCIALE */
-.chart-wrapper {
+#stats {
+  margin-top: 12px;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+}
+
+/* 🔥 fondamentale per grafico mobile */
+.chart-box {
   width: 100%;
-  height: 300px;
+  height: 320px;
   background: white;
   margin-top: 15px;
   border-radius: 8px;
@@ -47,13 +54,6 @@ button {
 canvas {
   width: 100% !important;
   height: 100% !important;
-}
-
-#stats {
-  margin-top: 12px;
-  padding: 10px;
-  background: white;
-  border-radius: 8px;
 }
 
 #list {

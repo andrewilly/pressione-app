@@ -16,15 +16,19 @@
 
   <form id="form">
     <input type="date" id="date" required>
+
     <input type="number" id="systolic" placeholder="Sistolica" required>
     <input type="number" id="diastolic" placeholder="Diastolica" required>
+
+    <!-- pulsazioni -->
+    <input type="number" id="pulse" placeholder="Pulsazioni (bpm)">
+
     <button type="submit">Salva</button>
   </form>
 
   <div id="stats"></div>
 
-  <!-- 🔥 FIX IMPORTANTE: wrapper con altezza reale -->
-  <div class="chart-wrapper">
+  <div class="chart-box">
     <canvas id="chart"></canvas>
   </div>
 
@@ -32,9 +36,7 @@
 
 </div>
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script src="app.js"></script>
 
 </body>

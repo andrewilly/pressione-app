@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("form");
-const ctx = document.getElementById("chart");
+const ctx = document.getElementById("chart").getContext("2d");
 
 let data = JSON.parse(localStorage.getItem("bpData")) || [];
 
 // --------------------
-// SALVA DATI
+// SALVA
 // --------------------
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -14,7 +14,8 @@ form.addEventListener("submit", (e) => {
   data.push({
     date: document.getElementById("date").value,
     systolic: +document.getElementById("systolic").value,
-    diastolic: +document.getElementById("diastolic").value
+    diastolic: +document.getElementById("diastolic").value,
+    pulse: +document.getElementById("pulse").value || null
   });
 
   data.sort((a,b)=> new Date(a.date) - new Date(b.date));
@@ -26,7 +27,7 @@ form.addEventListener("submit", (e) => {
 });
 
 // --------------------
-// GRAFICO (FIX MOBILE ROBUSTO)
+// GRAFICO STABILE MOBILE
 // --------------------
 function renderChart() {
 
@@ -35,30 +36,54 @@ function renderChart() {
   const labels = data.map(d => d.date);
   const s = data.map(d => d.systolic);
   const d = data.map(d => d.diastolic);
+  const p = data.map(d => d.pulse);
 
   const s120 = labels.map(()=>120);
   const s140 = labels.map(()=>140);
 
-  // 🔥 FIX IMPORTANTE: distruggi sicuro
-  if (window.chart) {
-    window.chart.destroy();
-  }
+  if (window.chart) window.chart.destroy();
 
   window.chart = new Chart(ctx, {
     type: "line",
     data: {
       labels,
       datasets: [
-        { label: "Sistolica", data: s, borderWidth: 3, tension: 0.3 },
-        { label: "Diastolica", data: d, borderWidth: 3, tension: 0.3 },
-
-        { label: "120", data: s120, borderDash: [6,6], pointRadius: 0 },
-        { label: "140", data: s140, borderDash: [6,6], pointRadius: 0 }
+        {
+          label: "Sistolica",
+          data: s,
+          borderWidth: 3,
+          tension: 0.3
+        },
+        {
+          label: "Diastolica",
+          data: d,
+          borderWidth: 3,
+          tension: 0.3
+        },
+        {
+          label: "Pulsazioni",
+          data: p,
+          borderWidth: 2,
+          borderDash: [4,4],
+          pointRadius: 2
+        },
+        {
+          label: "120",
+          data: s120,
+          borderDash: [6,6],
+          pointRadius: 0
+        },
+        {
+          label: "140",
+          data: s140,
+          borderDash: [6,6],
+          pointRadius: 0
+        }
       ]
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false, // 🔥 FONDAMENTALE
+      maintainAspectRatio: false,
       plugins: {
         legend: { position: "top" }
       },
@@ -71,7 +96,10 @@ function renderChart() {
 }
 
 // --------------------
+// STATISTICHE
+// --------------------
 function renderStats() {
+
   const el = document.getElementById("stats");
 
   if (data.length === 0) {
@@ -82,30 +110,42 @@ function renderStats() {
   const avgS = (data.reduce((a,b)=>a+b.systolic,0)/data.length).toFixed(1);
   const avgD = (data.reduce((a,b)=>a+b.diastolic,0)/data.length).toFixed(1);
 
-  el.innerHTML = `Media: ${avgS}/${avgD} mmHg`;
+  let status = "Normale";
+  if (avgS >= 140 || avgD >= 90) status = "Ipertensione";
+  else if (avgS >= 130 || avgD >= 85) status = "Borderline";
+
+  el.innerHTML = `
+    Media: ${avgS}/${avgD} mmHg<br>
+    Stato: ${status}
+  `;
 }
 
 // --------------------
+// LISTA
+// --------------------
 function renderList() {
+
   const list = document.getElementById("list");
   list.innerHTML = "";
 
   data.forEach(d => {
     const li = document.createElement("li");
-    li.textContent = `${d.date} - ${d.systolic}/${d.diastolic}`;
+    li.textContent = `${d.date} - ${d.systolic}/${d.diastolic} bpm:${d.pulse ?? "-"}`;
     list.appendChild(li);
   });
 }
 
 // --------------------
+// UPDATE UI
+// --------------------
 function updateUI() {
   renderStats();
   renderList();
 
-  // 🔥 FIX: delay per mobile rendering
+  // 🔥 fix mobile rendering
   setTimeout(() => {
     renderChart();
-  }, 100);
+  }, 120);
 }
 
 updateUI();
