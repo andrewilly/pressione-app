@@ -1,40 +1,33 @@
 body {
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
   background: #f5f7fb;
   color: #111827;
 }
 
-/* CONTAINER */
 .container {
   max-width: 540px;
   margin: auto;
   padding: 20px;
 }
 
-/* HEADER */
 .header {
   text-align: center;
   margin-bottom: 16px;
 }
 
-/* TITOLO PRINCIPALE */
 .title {
   font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.2px;
 }
 
-/* SOTTOTITOLO CLINICO */
 .subtitle {
   font-size: 12px;
   color: #6b7280;
-  margin-top: 2px;
-  letter-spacing: 1px;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* DIVISORE CLINICO */
 .divider {
   width: 70px;
   height: 2px;
@@ -43,15 +36,13 @@ body {
   border-radius: 2px;
 }
 
-/* CREDITS */
 .credits {
   font-size: 11px;
   color: #9ca3af;
-  letter-spacing: 1px;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* FORM */
 form {
   display: flex;
   flex-direction: column;
@@ -65,18 +56,10 @@ input, button {
   border-radius: 8px;
 }
 
-/* INPUT CLINICO */
 input {
   border: 1px solid #e5e7eb;
-  background: #fff;
 }
 
-input:focus {
-  outline: none;
-  border-color: #0ea5e9;
-}
-
-/* BUTTON CLINICO */
 button {
   background: #0ea5e9;
   color: white;
@@ -84,28 +67,28 @@ button {
   font-weight: 600;
 }
 
-/* MEDIA BOX */
+/* MEDIA */
 #stats {
   margin-top: 14px;
   padding: 12px;
-  background: #ffffff;
+  background: #fff;
   border-left: 4px solid #0ea5e9;
   border-radius: 8px;
   font-weight: 600;
 }
 
-/* AI BOX */
-#aiReport {
+/* ESC REPORT */
+#escReport {
   margin-top: 10px;
   padding: 12px;
-  background: #ffffff;
-  border-left: 4px solid #10b981;
+  background: #fff;
+  border-left: 4px solid #ef4444;
   border-radius: 8px;
   font-size: 13px;
   line-height: 1.4;
 }
 
-/* LISTA CLINICA */
+/* LISTA */
 .list-box {
   margin-top: 12px;
   background: white;
