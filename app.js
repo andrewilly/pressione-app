@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("form");
-const ctx = document.getElementById("chart").getContext("2d");
 
 let data = JSON.parse(localStorage.getItem("bpData")) || [];
 
@@ -66,7 +65,7 @@ function renderList() {
 }
 
 // --------------------
-// 🧠 AI CLINICA EVOLUTA
+// 🧠 AI CLINICA
 // --------------------
 function renderAI() {
 
@@ -89,82 +88,36 @@ function renderAI() {
   let risk = "basso";
   let reasons = [];
 
-  // --------------------
-  // CRITERI CLINICI SEMPLIFICATI
-  // --------------------
-
+  // soglie cliniche semplificate
   if (avgS >= 140 || avgD >= 90) {
     risk = "alto";
     reasons.push("pressione media sopra soglia ipertensiva (≥140/90 mmHg)");
   } else if (avgS >= 130 || avgD >= 85) {
     risk = "moderato";
-    reasons.push("valori medi in fascia borderline (130–139 / 85–89 mmHg)");
+    reasons.push("valori medi borderline (130–139 / 85–89 mmHg)");
   } else {
-    reasons.push("valori medi nei range considerati normali");
+    reasons.push("valori medi nei range normali");
   }
 
-  // Trend
+  // trend
   if (trendS > 10 || trendD > 10) {
-    reasons.push("trend in aumento progressivo dei valori pressori");
+    reasons.push("trend in aumento dei valori pressori");
   } else if (trendS < -10 || trendD < -10) {
-    reasons.push("trend in riduzione dei valori pressori");
+    reasons.push("trend in diminuzione dei valori pressori");
   } else {
     reasons.push("andamento stabile nel tempo");
   }
 
-  // Variabilità
-  const variabilityS = Math.max(...systolic) - Math.min(...systolic);
-  if (variabilityS > 25) {
-    reasons.push("elevata variabilità della pressione sistolica");
-  }
-
-  // --------------------
-  // OUTPUT CLINICO
-  // --------------------
   el.innerHTML = `
     <strong>Valutazione clinica AI</strong><br><br>
 
     <strong>Rischio stimato:</strong> ${risk}<br><br>
 
-    <strong>Motivazione clinica:</strong><br>
+    <strong>Motivazione:</strong>
     <ul style="margin:8px 0 0 18px; padding:0;">
       ${reasons.map(r => `<li>${r}</li>`).join("")}
     </ul>
-
-    <br>
-    <small>
-      Parametri analizzati: media pressoria, trend temporale, variabilità dei valori.
-    </small>
   `;
-}
-
-// --------------------
-// GRAFICO
-// --------------------
-function renderChart() {
-
-  if (data.length === 0) return;
-
-  const labels = data.map(d => d.date);
-  const s = data.map(d => d.systolic);
-  const d = data.map(d => d.diastolic);
-
-  if (window.chart) window.chart.destroy();
-
-  window.chart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels,
-      datasets: [
-        { label: "Sistolica", data: s, borderWidth: 3, tension: 0.3 },
-        { label: "Diastolica", data: d, borderWidth: 3, tension: 0.3 }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
-    }
-  });
 }
 
 // --------------------
@@ -174,7 +127,6 @@ function updateUI() {
   renderStats();
   renderList();
   renderAI();
-  renderChart();
 }
 
 updateUI();

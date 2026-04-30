@@ -41,29 +41,13 @@ button {
   font-weight: bold;
 }
 
-/* AI */
+/* AI CLINICA */
 #aiReport {
   margin-top: 10px;
   padding: 10px;
   background: #ffffff;
   border-left: 5px solid #2b6ef2;
   border-radius: 8px;
-}
-
-/* GRAFICO */
-.chart-box {
-  width: 100%;
-  height: 320px;
-  background: white;
-  margin-top: 15px;
-  border-radius: 8px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-canvas {
-  width: 100% !important;
-  height: 100% !important;
 }
 
 /* LISTA */
