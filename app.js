@@ -45,13 +45,11 @@ function renderStats() {
 }
 
 // --------------------
-// LISTA MISURAZIONI
+// LISTA
 // --------------------
 function renderList() {
 
   const list = document.getElementById("list");
-
-  if (!list) return;
 
   list.innerHTML = "";
 
@@ -68,7 +66,7 @@ function renderList() {
 }
 
 // --------------------
-// AI CLINICA
+// 🧠 AI CLINICA EVOLUTA
 // --------------------
 function renderAI() {
 
@@ -79,19 +77,64 @@ function renderAI() {
     return;
   }
 
-  const s = data.map(d => d.systolic);
-  const d = data.map(d => d.diastolic);
+  const systolic = data.map(d => d.systolic);
+  const diastolic = data.map(d => d.diastolic);
 
-  const avgS = s.reduce((a,b)=>a+b,0)/s.length;
-  const avgD = d.reduce((a,b)=>a+b,0)/d.length;
+  const avgS = systolic.reduce((a,b)=>a+b,0)/systolic.length;
+  const avgD = diastolic.reduce((a,b)=>a+b,0)/diastolic.length;
+
+  const trendS = systolic[systolic.length-1] - systolic[0];
+  const trendD = diastolic[diastolic.length-1] - diastolic[0];
 
   let risk = "basso";
-  if (avgS >= 140 || avgD >= 90) risk = "alto";
-  else if (avgS >= 130 || avgD >= 85) risk = "moderato";
+  let reasons = [];
 
+  // --------------------
+  // CRITERI CLINICI SEMPLIFICATI
+  // --------------------
+
+  if (avgS >= 140 || avgD >= 90) {
+    risk = "alto";
+    reasons.push("pressione media sopra soglia ipertensiva (≥140/90 mmHg)");
+  } else if (avgS >= 130 || avgD >= 85) {
+    risk = "moderato";
+    reasons.push("valori medi in fascia borderline (130–139 / 85–89 mmHg)");
+  } else {
+    reasons.push("valori medi nei range considerati normali");
+  }
+
+  // Trend
+  if (trendS > 10 || trendD > 10) {
+    reasons.push("trend in aumento progressivo dei valori pressori");
+  } else if (trendS < -10 || trendD < -10) {
+    reasons.push("trend in riduzione dei valori pressori");
+  } else {
+    reasons.push("andamento stabile nel tempo");
+  }
+
+  // Variabilità
+  const variabilityS = Math.max(...systolic) - Math.min(...systolic);
+  if (variabilityS > 25) {
+    reasons.push("elevata variabilità della pressione sistolica");
+  }
+
+  // --------------------
+  // OUTPUT CLINICO
+  // --------------------
   el.innerHTML = `
-    <strong>Valutazione clinica AI</strong><br>
-    Rischio stimato: ${risk}
+    <strong>Valutazione clinica AI</strong><br><br>
+
+    <strong>Rischio stimato:</strong> ${risk}<br><br>
+
+    <strong>Motivazione clinica:</strong><br>
+    <ul style="margin:8px 0 0 18px; padding:0;">
+      ${reasons.map(r => `<li>${r}</li>`).join("")}
+    </ul>
+
+    <br>
+    <small>
+      Parametri analizzati: media pressoria, trend temporale, variabilità dei valori.
+    </small>
   `;
 }
 
@@ -113,18 +156,8 @@ function renderChart() {
     data: {
       labels,
       datasets: [
-        {
-          label: "Sistolica",
-          data: s,
-          borderWidth: 3,
-          tension: 0.3
-        },
-        {
-          label: "Diastolica",
-          data: d,
-          borderWidth: 3,
-          tension: 0.3
-        }
+        { label: "Sistolica", data: s, borderWidth: 3, tension: 0.3 },
+        { label: "Diastolica", data: d, borderWidth: 3, tension: 0.3 }
       ]
     },
     options: {
