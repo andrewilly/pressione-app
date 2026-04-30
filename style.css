@@ -1,0 +1,13 @@
+body {
+  font-family: Arial;
+  padding: 20px;
+}
+
+input, button {
+  margin: 5px;
+  padding: 10px;
+}
+
+canvas {
+  margin-top: 20px;
+}
