@@ -3,34 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Referto Pressione</title>
+  <title>Monitor Pressione</title>
 
-  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="container">
-  <h2>Monitor Pressione Arteriosa</h2>
+
+  <h2>Monitor Pressione</h2>
 
   <form id="form">
     <input type="date" id="date" required>
     <input type="number" id="systolic" placeholder="Sistolica" required>
     <input type="number" id="diastolic" placeholder="Diastolica" required>
-    <input type="number" id="pulse" placeholder="Frequenza cardiaca">
     <button type="submit">Salva</button>
   </form>
 
   <div id="stats"></div>
 
-  <div class="chart-container">
+  <!-- 🔥 FIX IMPORTANTE: wrapper con altezza reale -->
+  <div class="chart-wrapper">
     <canvas id="chart"></canvas>
   </div>
 
   <ul id="list"></ul>
+
 </div>
 
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="app.js"></script>
 
 </body>
