@@ -9,17 +9,23 @@
 </head>
 <body>
 
-<h2>Monitor Pressione</h2>
+<div class="container">
+  <h2>Monitor Pressione</h2>
 
-<form id="form">
-  <input type="date" id="date" required>
-  <input type="number" id="systolic" placeholder="Sistolica" required>
-  <input type="number" id="diastolic" placeholder="Diastolica" required>
-  <input type="number" id="pulse" placeholder="Frequenza (opzionale)">
-  <button type="submit">Salva</button>
-</form>
+  <form id="form">
+    <input type="date" id="date" required>
+    <input type="number" id="systolic" placeholder="Sistolica" required>
+    <input type="number" id="diastolic" placeholder="Diastolica" required>
+    <input type="number" id="pulse" placeholder="Frequenza">
+    <button type="submit">Salva</button>
+  </form>
 
-<canvas id="chart"></canvas>
+  <div id="stats"></div>
+
+  <canvas id="chart"></canvas>
+
+  <ul id="list"></ul>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="app.js"></script>

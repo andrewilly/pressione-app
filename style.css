@@ -1,13 +1,57 @@
 body {
   font-family: Arial;
+  background: #f5f7fa;
+  margin: 0;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
   padding: 20px;
 }
 
-input, button {
-  margin: 5px;
-  padding: 10px;
+h2 {
+  text-align: center;
 }
 
-canvas {
-  margin-top: 20px;
+form {
+  display: flex;
+  flex-direction: column;
 }
+
+input, button {
+  margin: 5px 0;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  background: #317EFB;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#stats {
+  margin-top: 15px;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+}
+
+#list {
+  margin-top: 15px;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  background: white;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.normal { border-left: 5px solid green; }
+.warning { border-left: 5px solid orange; }
+.danger { border-left: 5px solid red; }
