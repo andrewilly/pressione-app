@@ -1,61 +1,117 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
   margin: 0;
-  background: #f4f6f8;
+  background: #f5f7fb;
+  color: #111827;
 }
 
+/* CONTAINER */
 .container {
-  max-width: 520px;
+  max-width: 540px;
   margin: auto;
-  padding: 16px;
+  padding: 20px;
 }
 
-h2 {
+/* HEADER */
+.header {
   text-align: center;
+  margin-bottom: 16px;
 }
 
+/* TITOLO PRINCIPALE */
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* SOTTOTITOLO CLINICO */
+.subtitle {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* DIVISORE CLINICO */
+.divider {
+  width: 70px;
+  height: 2px;
+  background: #0ea5e9;
+  margin: 10px auto;
+  border-radius: 2px;
+}
+
+/* CREDITS */
+.credits {
+  font-size: 11px;
+  color: #9ca3af;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* FORM */
 form {
   display: flex;
   flex-direction: column;
+  margin-top: 14px;
 }
 
 input, button {
   margin: 6px 0;
-  padding: 10px;
-  font-size: 15px;
+  padding: 11px;
+  font-size: 14px;
+  border-radius: 8px;
 }
 
+/* INPUT CLINICO */
+input {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+input:focus {
+  outline: none;
+  border-color: #0ea5e9;
+}
+
+/* BUTTON CLINICO */
 button {
-  background: #2b6ef2;
+  background: #0ea5e9;
   color: white;
   border: none;
-  border-radius: 6px;
+  font-weight: 600;
 }
 
-/* MEDIA */
+/* MEDIA BOX */
 #stats {
-  margin-top: 12px;
-  padding: 10px;
-  background: white;
+  margin-top: 14px;
+  padding: 12px;
+  background: #ffffff;
+  border-left: 4px solid #0ea5e9;
   border-radius: 8px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
-/* AI CLINICA */
+/* AI BOX */
 #aiReport {
   margin-top: 10px;
-  padding: 10px;
+  padding: 12px;
   background: #ffffff;
-  border-left: 5px solid #2b6ef2;
+  border-left: 4px solid #10b981;
   border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
-/* LISTA */
+/* LISTA CLINICA */
 .list-box {
   margin-top: 12px;
   background: white;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px;
+  border: 1px solid #eef2f7;
 }
 
 #list {
@@ -65,7 +121,11 @@ button {
 }
 
 #list li {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
+  padding: 9px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+}
+
+#list li:last-child {
+  border-bottom: none;
 }
