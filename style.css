@@ -1,17 +1,18 @@
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #f5f7fa;
   margin: 0;
 }
 
 .container {
-  max-width: 500px;
+  max-width: 520px;
   margin: auto;
   padding: 20px;
 }
 
 h2 {
   text-align: center;
+  font-weight: 600;
 }
 
 form {
@@ -20,29 +21,42 @@ form {
 }
 
 input, button {
-  margin: 5px 0;
+  margin: 6px 0;
   padding: 10px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 button {
-  background: #317EFB;
+  background: #2b6ef2;
   color: white;
   border: none;
-  cursor: pointer;
+  border-radius: 4px;
 }
 
 #stats {
   margin-top: 15px;
   padding: 10px;
-  background: white;
+  background: #ffffff;
   border-radius: 8px;
+}
+
+.chart-container {
+  margin-top: 15px;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  height: 300px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 #list {
   margin-top: 15px;
-  padding: 0;
   list-style: none;
+  padding: 0;
 }
 
 .item {
@@ -52,6 +66,6 @@ button {
   border-radius: 6px;
 }
 
-.normal { border-left: 5px solid green; }
-.warning { border-left: 5px solid orange; }
-.danger { border-left: 5px solid red; }
+.normal { border-left: 5px solid #2ecc71; }
+.warning { border-left: 5px solid #f39c12; }
+.danger { border-left: 5px solid #e74c3c; }
