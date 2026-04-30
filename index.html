@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monitor Pressione</title>
+  <title>Referto Pressione</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,7 +12,7 @@
 
 <div class="container">
 
-  <h2>Monitor Pressione</h2>
+  <h2>Monitor Pressione Arteriosa</h2>
 
   <form id="form">
     <input type="date" id="date" required>
@@ -20,13 +20,15 @@
     <input type="number" id="systolic" placeholder="Sistolica" required>
     <input type="number" id="diastolic" placeholder="Diastolica" required>
 
-    <!-- pulsazioni -->
     <input type="number" id="pulse" placeholder="Pulsazioni (bpm)">
 
     <button type="submit">Salva</button>
   </form>
 
   <div id="stats"></div>
+
+  <!-- Output AI medico -->
+  <div id="aiReport"></div>
 
   <div class="chart-box">
     <canvas id="chart"></canvas>
